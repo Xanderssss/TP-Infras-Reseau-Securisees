@@ -1,0 +1,57 @@
+enable
+conf t
+interface Ethernet0/0
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30,40
+exit
+
+interface Ethernet0/1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30,40
+exit
+
+interface Ethernet0/2
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30,40
+exit
+
+interface Ethernet0/3
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30,40
+exit
+
+interface Ethernet1/0
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk allowed vlan add 10,20,30,40
+exit
+
+hostname core1
+
+vlan 10
+name admins
+exit
+
+vlan 20
+name clients
+exit
+
+vlan 30
+name servers
+exit
+
+vlan 40
+name guests
+exit
+
+exit
+
+copy running-config startup-config
+
+
+
+show vlan br
