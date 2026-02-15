@@ -1,0 +1,58 @@
+enable
+configure terminal
+
+hostname R1
+
+interface GigabitEthernet0/0
+  description WAN Interface
+  ip address dhcp
+  no shutdown
+
+interface GigabitEthernet0/1
+  description LAN to IOU1
+  no shutdown
+
+interface GigabitEthernet0/1.10
+  description VLAN 10 - Mario/Luigi
+  encapsulation dot1Q 10
+  ip address 10.1.10.254 255.255.255.0
+  no shutdown
+
+interface GigabitEthernet0/1.20
+  description VLAN 20 - Peach/Daisy
+  encapsulation dot1Q 20
+  ip address 10.1.20.254 255.255.255.0
+  no shutdown
+
+interface GigabitEthernet0/1.30
+  description VLAN 30 - Lakitu/Bowser
+  encapsulation dot1Q 30
+  ip address 10.1.30.254 255.255.255.0
+  no shutdown
+
+interface GigabitEthernet0/1.40
+  description VLAN 40 - DHCP Server
+  encapsulation dot1Q 40
+  ip address 10.2.40.254 255.255.255.0
+  no shutdown
+
+ip routing
+
+interface GigabitEthernet0/1.10
+  ip helper-address 10.2.40.1
+
+interface GigabitEthernet0/1.20
+  ip helper-address 10.2.40.1
+
+interface GigabitEthernet0/1.30
+  ip helper-address 10.2.40.1
+
+end
+
+
+show ip interface brief
+show ip route
+show vlan
+show interface trunk
+
+show ip interface GigabitEthernet0/1.10

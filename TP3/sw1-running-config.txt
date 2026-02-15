@@ -1,0 +1,88 @@
+enable
+configure terminal
+
+hostname IOU2
+
+vlan 10
+  name VLAN_Mario_Luigi
+
+interface Ethernet0/0
+  description Trunk to IOU1
+  switchport trunk encapsulation dot1q
+  switchport mode trunk
+  switchport trunk allowed vlan 10
+  no shutdown
+
+interface Ethernet0/1
+  description Mario (VPCS)
+  switchport mode access
+  switchport access vlan 10
+  spanning-tree portfast
+  no shutdown
+
+interface Ethernet0/2
+  description Luigi (VPCS)
+  switchport mode access
+  switchport access vlan 10
+  spanning-tree portfast
+  no shutdown
+
+interface Ethernet1/0
+  description Attacker Machine
+  switchport mode access
+  switchport access vlan 10
+  spanning-tree portfast
+  no shutdown
+
+ip dhcp snooping
+ip dhcp snooping vlan 10
+ip dhcp snooping verify mac-address
+
+interface Ethernet0/0
+  ip dhcp snooping trust
+
+ip arp inspection vlan 10
+ip arp inspection validate src-mac dst-mac ip
+
+interface Ethernet0/0
+  ip arp inspection trust
+
+interface Ethernet0/1
+  ip arp inspection limit rate 60
+
+interface Ethernet0/2
+  ip arp inspection limit rate 60
+
+interface Ethernet1/0
+  ip arp inspection limit rate 60
+
+interface Ethernet0/1
+  ip verify source
+
+interface Ethernet0/2
+  ip verify source
+
+interface Ethernet1/0
+  ip verify source
+
+interface Ethernet0/1
+  switchport port-security
+  switchport port-security maximum 1
+  switchport port-security violation restrict
+  switchport port-security mac-address sticky
+
+interface Ethernet0/2
+  switchport port-security
+  switchport port-security maximum 1
+  switchport port-security violation restrict
+  switchport port-security mac-address sticky
+
+interface Ethernet1/0
+  switchport port-security
+  switchport port-security maximum 1
+  switchport port-security violation restrict
+  switchport port-security mac-address sticky
+
+spanning-tree portfast bpduguard default
+
+end
